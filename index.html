@@ -3,1347 +3,472 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Inteligência de Crédito</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<title>Crédito — Leitor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --navy: #0d1b2e;
-  --navy2: #152035;
-  --navy3: #1e2d45;
-  --gold: #c9a84c;
-  --gold2: #e8c36a;
-  --accent: #4f7cff;
-  --accent2: #7aa3ff;
-  --white: #f0f4fa;
-  --muted: #8898b0;
-  --border: rgba(255,255,255,.07);
-  --border2: #e8edf5;
-  --surface: #ffffff;
-  --text: #1a2535;
-  --text2: #4a5a70;
-  --red: #e05252;
-  --green: #3db57a;
-  --amber: #e09a3a;
-  --violet: #9b6fff;
-  --sidebar: 220px;
-}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;font-family:'IBM Plex Sans',sans-serif;background:#f0f4fa;color:var(--text)}
+html,body{min-height:100%;font-family:'Inter',sans-serif;background:#f6f7f9;color:#1a1f2e}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
-input,textarea{font-family:inherit}
+input{font-family:inherit}
 a{text-decoration:none;color:inherit}
 
-/* ── LAYOUT ── */
-#app{display:flex;height:100vh;overflow:hidden}
-#sidebar{width:var(--sidebar);background:var(--navy);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
-#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.main-scroll{flex:1;overflow-y:auto;padding:24px 28px}
-.main-scroll::-webkit-scrollbar{width:4px}
-.main-scroll::-webkit-scrollbar-thumb{background:#d0d9e8;border-radius:2px}
-.sidebar-scroll{flex:1;overflow-y:auto}
-.sidebar-scroll::-webkit-scrollbar{width:3px}
-.sidebar-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+.wrap{max-width:680px;margin:0 auto;padding:36px 20px 80px}
 
-/* ── SIDEBAR ── */
-.sb-brand{padding:18px 14px 14px;border-bottom:1px solid var(--border)}
-.sb-brand-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.sb-logo{display:flex;align-items:center;gap:7px;color:var(--white)}
-.sb-logo-icon{width:26px;height:26px;background:linear-gradient(135deg,var(--accent),var(--violet));border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff}
-.sb-title{font-size:12px;font-weight:700;letter-spacing:.3px;color:var(--white)}
-.sb-actions{display:flex;gap:4px}
-.sb-btn{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .15s}
-.sb-btn:hover{background:rgba(255,255,255,.08);color:var(--white)}
-.sb-btn.primary{background:var(--accent);color:#fff}
-.sb-btn.primary:hover{background:var(--accent2)}
+/* header */
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:36px;height:36px;background:#1a1f2e;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;font-family:'JetBrains Mono',monospace;flex-shrink:0}
+.logo-name{font-size:15px;font-weight:700;letter-spacing:-.3px}
+.logo-sub{font-size:11px;color:#94a3b8;margin-top:1px}
+.cfg-btn{width:34px;height:34px;border-radius:8px;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;transition:all .15s}
+.cfg-btn:hover{background:#fff;color:#1a1f2e;border-color:#cbd5e1}
 
-/* tab grid */
-.tab-grid{display:grid;gap:3px;margin-bottom:0}
-.tab-grid-3{grid-template-columns:1fr 1fr 1fr}
-.tab-grid-2{grid-template-columns:1fr 1fr;margin-top:3px}
-.tab-btn{padding:6px 4px;border-radius:6px;font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.2px;transition:all .15s;text-align:center}
-.tab-btn:hover{background:rgba(255,255,255,.05);color:var(--white)}
-.tab-btn.active{background:var(--accent);color:#fff}
+/* input card */
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card:focus-within{border-color:#818cf8;box-shadow:0 0 0 3px rgba(129,140,248,.1)}
+.row{display:flex;gap:10px;align-items:flex-end}
+.lbl{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;display:block}
+.url-inp{flex:1;border:1px solid #e2e8f0;border-radius:8px;padding:10px 13px;font-size:13px;color:#1a1f2e;outline:none;transition:border-color .15s;background:#fafbfc}
+.url-inp:focus{border-color:#818cf8;background:#fff}
+.url-inp::placeholder{color:#cbd5e1}
+.sep{font-size:11px;color:#cbd5e1;padding-bottom:6px;flex-shrink:0}
+.pdf-lbl{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#6366f1;border:1.5px dashed #c7d2fe;border-radius:8px;padding:9px 13px;cursor:pointer;transition:all .15s;white-space:nowrap;background:#fafbff}
+.pdf-lbl:hover{background:#eef2ff;border-color:#a5b4fc}
+.pdf-lbl.ok{border-style:solid;background:#f0fdf4;color:#16a34a;border-color:#86efac}
+.go-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:14px;padding:11px;background:#1a1f2e;color:#fff;border-radius:9px;font-size:13px;font-weight:600;transition:background .15s}
+.go-btn:hover:not(:disabled){background:#2d3748}
+.go-btn:disabled{opacity:.35;cursor:not-allowed}
+.go-btn.busy{background:#6366f1}
+.err{font-size:11px;color:#ef4444;margin-top:8px;display:none}
+input[type=file]{display:none}
 
-/* article list */
-.art-item{padding:8px 10px;border-radius:7px;cursor:pointer;transition:all .15s;width:100%;text-align:left;display:flex;gap:6px;align-items:flex-start;border:1px solid transparent}
-.art-item:hover{background:rgba(255,255,255,.04)}
-.art-item.active{background:rgba(79,124,255,.15);border-color:rgba(79,124,255,.3)}
-.art-dot{font-size:8px;margin-top:3px;flex-shrink:0}
-.art-dot.alta{color:var(--red)}
-.art-dot.media{color:var(--amber)}
-.art-dot.baixa{color:#3d5070}
-.art-name{font-size:10px;font-weight:500;color:var(--white);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.art-src{font-size:9px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* stats */
+.stats{font-size:11px;color:#94a3b8;margin-bottom:12px}
+.stats b{color:#1a1f2e}
 
-/* insight items */
-.ins-cat{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;padding:2px 7px;border-radius:5px;display:inline-block}
-.ins-item{padding:5px 6px;border-radius:5px;cursor:pointer;width:100%;text-align:left;transition:all .15s}
-.ins-item:hover{background:rgba(255,255,255,.04)}
-.ins-text{font-size:9.5px;color:rgba(255,255,255,.75);line-height:1.5}
-.ins-ref{font-size:9px;color:#4f7cff;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* article card */
+.art{background:#fff;border:1px solid #e2e8f0;border-radius:12px;margin-bottom:8px;overflow:hidden;transition:border-color .15s}
+.art:hover{border-color:#cbd5e1}
+.art-top{display:flex;align-items:flex-start;gap:10px;padding:13px 15px;cursor:pointer}
+.art-info{flex:1;min-width:0}
+.art-meta{display:flex;align-items:center;gap:5px;margin-bottom:4px;flex-wrap:wrap}
+.src{font-size:10px;font-weight:700;color:#6366f1;text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace}
+.dt{font-size:10px;color:#cbd5e1}
+.rel{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;letter-spacing:.3px}
+.rel-alta{background:#fef2f2;color:#b91c1c}
+.rel-media{background:#fffbeb;color:#b45309}
+.rel-baixa{background:#f8fafc;color:#64748b}
+.art-title{font-size:13px;font-weight:600;color:#0f172a;line-height:1.45}
+.art-actions{display:flex;gap:4px;align-items:center;flex-shrink:0}
+.del-btn{color:#e2e8f0;padding:3px;border-radius:5px;transition:color .15s}
+.del-btn:hover{color:#ef4444}
+.chev{color:#e2e8f0;transition:transform .2s}
+.chev.open{transform:rotate(90deg)}
 
-/* diário history */
-.dia-item{padding:7px 8px;border-radius:7px;cursor:pointer;width:100%;text-align:left;transition:all .15s;border:1px solid transparent}
-.dia-item:hover{background:rgba(255,255,255,.04)}
-.dia-item.active{background:rgba(61,181,122,.12);border-color:rgba(61,181,122,.25)}
-.dia-date{font-size:10px;font-weight:600;color:var(--white);display:flex;align-items:center;gap:4px}
-.dia-count{font-size:9px;color:var(--muted);margin-top:1px}
+/* expanded body */
+.art-body{padding:0 15px 15px;border-top:1px solid #f8fafc}
+.tese-box{background:#f8f9ff;border-left:3px solid #818cf8;padding:9px 12px;border-radius:0 7px 7px 0;margin:11px 0 10px;font-size:12px;color:#3730a3;line-height:1.6;font-style:italic}
+.sec{font-size:9.5px;font-weight:700;color:#cbd5e1;text-transform:uppercase;letter-spacing:.8px;margin:12px 0 5px;font-family:'JetBrains Mono',monospace}
+.bullets{list-style:none}
+.bullets li{display:flex;gap:7px;font-size:12px;color:#374151;line-height:1.6;margin-bottom:3px}
+.bullets li::before{content:'›';color:#a5b4fc;font-weight:700;flex-shrink:0}
+.ins-row{display:flex;gap:7px;align-items:flex-start;padding:6px 9px;border-radius:6px;background:#fafbfc;border:1px solid #f1f5f9;margin-bottom:4px}
+.ins-cat{font-size:9px;font-weight:700;padding:2px 5px;border-radius:4px;flex-shrink:0;margin-top:1px;text-transform:uppercase;letter-spacing:.3px;font-family:'JetBrains Mono',monospace}
+.c-macro{background:#dbeafe;color:#1e40af}
+.c-setor{background:#dcfce7;color:#166534}
+.c-regulatório{background:#f3e8ff;color:#6b21a8}
+.c-estratégia{background:#fef9c3;color:#854d0e}
+.c-risco{background:#ffe4e6;color:#9f1239}
+.c-oportunidade{background:#d1fae5;color:#065f46}
+.ins-txt{font-size:11px;color:#374151;line-height:1.5}
+.reg-box{border-radius:6px;padding:8px 10px;margin-bottom:4px}
+.reg-bcb{background:#eff6ff;border:1px solid #bfdbfe}
+.reg-cvm{background:#f5f3ff;border:1px solid #ddd6fe}
+.reg-org{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-family:'JetBrains Mono',monospace}
+.reg-bcb .reg-org{color:#1d4ed8}
+.reg-cvm .reg-org{color:#6d28d9}
+.reg-name{font-size:11px;font-weight:600;color:#1e293b;margin:2px 0}
+.reg-desc{font-size:10px;color:#64748b;line-height:1.5}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.tag{font-size:10px;padding:2px 8px;background:#f1f5f9;border-radius:999px;color:#64748b;font-family:'JetBrains Mono',monospace}
+.art-link{display:flex;align-items:center;gap:4px;font-size:10px;color:#6366f1;margin-top:10px}
+.art-link:hover{text-decoration:underline}
 
-/* sb footer */
-.sb-footer{padding:8px 10px;border-top:1px solid var(--border);display:flex;justify-content:space-around}
-.sb-stat{font-size:9px;color:var(--muted)}
+/* empty */
+.empty{text-align:center;padding:56px 20px;color:#94a3b8}
+.empty-ico{font-size:36px;margin-bottom:12px;opacity:.4}
+.empty-ttl{font-size:14px;font-weight:600;color:#64748b;margin-bottom:6px}
+.empty-sub{font-size:12px;line-height:1.7}
 
-/* ── CARDS ── */
-.card{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:16px;transition:border-color .15s}
-.card:hover{border-color:#d0d9e8}
-.card-sm{padding:12px}
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;z-index:99;padding:20px;backdrop-filter:blur(4px)}
+.modal{background:#fff;border-radius:14px;width:100%;max-width:400px;box-shadow:0 20px 50px rgba(0,0,0,.2)}
+.mhd{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid #f1f5f9}
+.mhd-title{font-size:14px;font-weight:700}
+.mbody{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.mft{padding:0 18px 16px;display:flex;justify-content:flex-end;gap:8px}
+.field-input{width:100%;border:1px solid #e2e8f0;border-radius:8px;padding:9px 12px;font-size:13px;outline:none;transition:border-color .15s}
+.field-input:focus{border-color:#818cf8}
+.hint{font-size:10px;color:#94a3b8;line-height:1.6;margin-top:5px}
+.m-btn{border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;transition:all .15s}
+.m-btn-primary{background:#1a1f2e;color:#fff}
+.m-btn-primary:hover{background:#2d3748}
+.m-btn-ghost{color:#64748b}
+.m-btn-ghost:hover{background:#f1f5f9}
+.exp-row{display:flex;gap:8px}
+.exp-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;border:1px solid #e2e8f0;border-radius:8px;padding:8px;font-size:12px;font-weight:600;color:#475569;transition:all .15s;cursor:pointer}
+.exp-btn:hover{background:#f8fafc;border-color:#cbd5e1}
+.imp-status{font-size:11px;margin-top:6px;display:none}
 
-/* ── BADGES ── */
-.badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid;white-space:nowrap;font-family:'IBM Plex Mono',monospace;letter-spacing:.3px}
-.badge-alta{background:#fff0f0;color:#c53030;border-color:#fecaca}
-.badge-media{background:#fffbeb;color:#b45309;border-color:#fde68a}
-.badge-baixa{background:#f8fafc;color:#64748b;border-color:#e2e8f0}
-.badge-bcb{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
-.badge-cvm{background:#f5f3ff;color:#6d28d9;border-color:#ddd6fe}
-.badge-bj{background:#f0f9ff;color:#0369a1;border-color:#bae6fd}
-.badge-nf{background:#f0fdfa;color:#0f766e;border-color:#99f6e4}
-.badge-vi{background:#fff7ed;color:#c2410c;border-color:#fed7aa}
-.badge-bcbnot{background:#f0fdf4;color:#166534;border-color:#86efac}
-.badge-abbc{background:#fdf4ff;color:#7e22ce;border-color:#e9d5ff}
-.badge-fins{background:#fff1f2;color:#be123c;border-color:#fda4af}
-.badge-anbima{background:#fefce8;color:#854d0e;border-color:#fde047}
-.badge-b3{background:#f0f9ff;color:#075985;border-color:#7dd3fc}
-.badge-gestoras{background:#fdf4ff;color:#6b21a8;border-color:#d8b4fe}
-.badge-linkedin{background:#eff6ff;color:#1e40af;border-color:#93c5fd}
-.badge-pos{background:#d1fae5;color:#065f46;border-color:#6ee7b7}
-.badge-neg{background:#fee2e2;color:#991b1b;border-color:#fca5a5}
-.badge-mix{background:#fef3c7;color:#92400e;border-color:#fcd34d}
-.badge-neu{background:#f1f5f9;color:#475569;border-color:#cbd5e1}
-.badge-cat-macro{background:#dbeafe;color:#1e40af;border-color:#93c5fd}
-.badge-cat-setor{background:#dcfce7;color:#166534;border-color:#86efac}
-.badge-cat-regulatório{background:#f3e8ff;color:#6b21a8;border-color:#d8b4fe}
-.badge-cat-estratégia{background:#fef9c3;color:#854d0e;border-color:#fde047}
-.badge-cat-risco{background:#ffe4e6;color:#9f1239;border-color:#fda4af}
-.badge-cat-oportunidade{background:#d1fae5;color:#065f46;border-color:#6ee7b7}
-.tag-chip{font-size:10px;padding:2px 8px;background:#f1f5f9;border:1px solid #e2e8f0;color:#475569;border-radius:999px;display:inline-flex;align-items:center;gap:3px}
+/* quotes */
+.quote-block{border-left:3px solid #e2e8f0;padding:10px 14px;margin-bottom:6px;background:#fafbfc;border-radius:0 8px 8px 0}
+.quote-text{font-size:12px;color:#374151;line-height:1.7;font-style:italic;margin-bottom:5px}
+.quote-attr{font-size:10px;color:#94a3b8;font-weight:600;font-family:'JetBrains Mono',monospace}
+.quote-attr span{color:#6366f1}
 
-/* ── INSIGHT CARDS ── */
-.ins-card{display:flex;gap:10px;background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:10px 12px}
-
-/* ── BCB/CVM CARDS ── */
-.reg-card-bcb{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:10px 12px}
-.reg-card-cvm{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;padding:10px 12px}
-
-/* ── TESE BOX ── */
-.tese-box{background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;padding:12px 14px}
-
-/* ── SECTION TITLE ── */
-.sec-title{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;gap:5px}
-
-/* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;transition:all .15s;cursor:pointer;border:1px solid transparent}
-.btn-primary{background:#4f46e5;color:#fff}
-.btn-primary:hover{background:#4338ca}
-.btn-primary:disabled{opacity:.4;cursor:not-allowed}
-.btn-emerald{background:#059669;color:#fff}
-.btn-emerald:hover{background:#047857}
-.btn-emerald:disabled{opacity:.4;cursor:not-allowed}
-.btn-outline{background:#fff;color:#4f46e5;border-color:#c7d2fe}
-.btn-outline:hover{background:#eef2ff}
-.btn-ghost{color:#64748b}
-.btn-ghost:hover{background:#f1f5f9}
-.btn-danger{color:#94a3b8;border-radius:6px;padding:4px}
-.btn-danger:hover{color:#ef4444}
-.btn-save{font-size:10px;font-weight:600;padding:3px 9px;border-radius:7px;border:1px solid;display:inline-flex;align-items:center;gap:4px;font-family:'IBM Plex Mono',monospace;letter-spacing:.2px}
-.btn-save-idle{background:#eef2ff;color:#4f46e5;border-color:#c7d2fe}
-.btn-save-idle:hover{background:#e0e7ff}
-.btn-save-done{background:#ecfdf5;color:#059669;border-color:#a7f3d0;cursor:default}
-
-/* ── FORM ── */
-.form-label{font-size:11px;font-weight:600;color:#475569;display:block;margin-bottom:5px}
-.form-input{width:100%;border:1px solid #e2e8f0;border-radius:8px;padding:8px 11px;font-size:12px;font-family:'IBM Plex Sans',sans-serif;outline:none;transition:border-color .15s;background:#fff;color:var(--text)}
-.form-input:focus{border-color:#818cf8}
-textarea.form-input{resize:none}
-
-/* ── MODAL ── */
-.overlay{position:fixed;inset:0;background:rgba(13,27,46,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;backdrop-filter:blur(3px)}
-.modal{background:#fff;border-radius:16px;width:100%;max-width:520px;box-shadow:0 25px 60px rgba(0,0,0,.2);overflow:hidden}
-.modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #f1f5f9}
-.modal-title{font-weight:700;font-size:14px;color:var(--text)}
-.modal-body{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
-.modal-footer{padding:0 18px 16px;display:flex;justify-content:flex-end;gap:8px}
-.mode-tabs{display:flex;border-bottom:1px solid #f1f5f9}
-.mode-tab{flex:1;padding:9px 0;font-size:11px;font-weight:700;border-bottom:2px solid transparent;color:#94a3b8;transition:all .15s;text-align:center}
-.mode-tab.active{border-color:#6366f1;color:#6366f1;background:#fafafa}
-.drop-zone{border:2px dashed #e2e8f0;border-radius:10px;padding:30px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:all .15s;text-align:center}
-.drop-zone:hover,.drop-zone.dragging{border-color:#818cf8;background:#f5f3ff}
-.drop-zone input{display:none}
-.pdf-loaded{display:flex;align-items:center;gap:10px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:10px 12px}
-
-/* ── EMPTY STATES ── */
-.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;color:#94a3b8;text-align:center}
-.empty svg{opacity:.3}
-.empty-title{font-size:14px;font-weight:600;color:#64748b}
-.empty-sub{font-size:12px;color:#94a3b8;max-width:220px;line-height:1.6}
-
-/* ── PAGE HEADERS ── */
-.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
-.page-title{font-size:18px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
-.page-subtitle{font-size:12px;color:var(--text2);margin-top:2px}
-
-/* ── TERMÔMETRO ── */
-.termo-pos{background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;padding:14px 16px}
-.termo-neg{background:#fef2f2;border:1px solid #fecaca;border-radius:12px;padding:14px 16px}
-.termo-mix{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:14px 16px}
-.termo-neu{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px}
-.insight-box{display:flex;gap:7px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:7px 10px;margin-top:6px}
-.insight-text{font-size:10px;color:#92400e;line-height:1.5}
-
-/* ── RESUMO CRÉDITO PRIVADO ── */
-.resumo-panel{background:linear-gradient(135deg,#0d1b2e,#1e2d45);border:1px solid rgba(79,124,255,.25);border-radius:14px;padding:18px;margin-bottom:20px}
-.resumo-panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.resumo-panel-title{font-size:11px;font-weight:700;color:#7aa3ff;text-transform:uppercase;letter-spacing:.8px;display:flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace}
-.resumo-sint{font-size:12px;color:rgba(240,244,250,.85);line-height:1.7;margin-bottom:14px}
-.resumo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.resumo-block{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:10px 12px}
-.resumo-block-title{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;font-family:'IBM Plex Mono',monospace}
-.resumo-item{display:flex;gap:6px;margin-bottom:5px;font-size:10.5px;line-height:1.5}
-.resumo-dot{flex-shrink:0;margin-top:4px;font-size:7px}
-.resumo-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
-.resumo-chip{font-size:9.5px;padding:2px 8px;border-radius:999px;border:1px solid;font-family:'IBM Plex Mono',monospace;letter-spacing:.2px}
-.resumo-loading{display:flex;align-items:center;gap:8px;color:rgba(240,244,250,.4);font-size:11px;padding:8px 0}
-.btn-gerar-resumo{font-size:10px;font-weight:700;padding:4px 10px;border-radius:7px;border:1px solid rgba(79,124,255,.4);color:#7aa3ff;background:rgba(79,124,255,.1);cursor:pointer;display:inline-flex;align-items:center;gap:4px;font-family:'IBM Plex Mono',monospace;transition:all .15s}
-.btn-gerar-resumo:hover{background:rgba(79,124,255,.2)}
+/* micro details */
+.micro-grid{display:flex;flex-direction:column;gap:4px}
+.micro-row{display:flex;gap:8px;align-items:baseline;padding:5px 9px;border-radius:6px;background:#fafbfc;border:1px solid #f1f5f9}
+.micro-tipo{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 5px;border-radius:4px;flex-shrink:0;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.t-valor{background:#dbeafe;color:#1e40af}
+.t-prazo{background:#fef9c3;color:#854d0e}
+.t-rating{background:#d1fae5;color:#065f46}
+.t-spread{background:#ede9fe;color:#5b21b6}
+.t-emissor{background:#fff7ed;color:#c2410c}
+.t-estrutura{background:#f0fdf4;color:#15803d}
+.t-regulação{background:#f3e8ff;color:#6b21a8}
+.t-outro{background:#f1f5f9;color:#475569}
+.micro-txt{font-size:11px;color:#374151;line-height:1.5}
 @keyframes spin{to{transform:rotate(360deg)}}
-.spin{animation:spin 1s linear infinite;display:inline-block}
-
-/* ── CONNECTIONS ── */
-.conn-item{display:flex;align-items:flex-start;gap:8px;background:#fff;border:1px solid #f1f5f9;border-radius:10px;padding:10px 12px;cursor:pointer;width:100%;text-align:left;transition:all .15s}
-.conn-item:hover{border-color:#c7d2fe;background:#f8faff}
-
-/* ── CRUZAMENTO ── */
-.tend-card{display:flex;gap:10px;background:#fff;border:1px solid #f1f5f9;border-radius:10px;padding:12px}
-.alerta-card{display:flex;gap:8px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:9px 11px}
-.opor-card{background:#fff;border:1px solid #f1f5f9;border-radius:10px;padding:12px}
-.sint-box{background:linear-gradient(135deg,#eef2ff,#f5f3ff);border:1px solid #c7d2fe;border-radius:12px;padding:14px}
-
-/* ── NEWS CARD ── */
-.news-card{background:#fff;border:1px solid #f1f5f9;border-radius:12px;overflow:hidden;margin-bottom:10px;transition:border-color .15s}
-.news-card:hover{border-color:#d0d9e8}
-.news-body{padding:12px 14px}
-.news-expand{padding:10px 14px 14px;border-top:1px solid #f8fafc}
-
-/* ── REG PAGE ── */
-.org-section{margin-bottom:24px}
-.org-divider{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #f1f5f9}
-.reg-freq-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:999px;border:1px solid}
-
-/* ── SETTINGS ── */
-.settings-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px}
-.api-key-note{font-size:10px;color:#94a3b8;line-height:1.6;margin-top:6px}
-
-/* LOADER PAGE */
-.loading-page{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px}
-.loading-page p{font-size:12px;font-weight:500;color:#64748b}
-.loading-page small{font-size:10px;color:#94a3b8}
-
-/* ─ responsive tweaks for narrow side panel ─ */
-@media(max-width:640px){
-  :root{--sidebar:180px}
-  .main-scroll{padding:16px}
-}
+.spin{animation:spin .8s linear infinite;display:inline-block}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div id="app">
-  <aside id="sidebar">
-    <div class="sb-brand">
-      <div class="sb-brand-row">
-        <div class="sb-logo">
-          <div class="sb-logo-icon">₡</div>
-          <span class="sb-title">Inteligência</span>
-        </div>
-        <div class="sb-actions">
-          <button class="sb-btn primary" id="btn-add" title="Nova matéria">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
-          <button class="sb-btn" id="btn-settings" title="Configurações (API Key)">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          </button>
-        </div>
-      </div>
-      <div class="tab-grid tab-grid-3">
-        <button class="tab-btn active" data-view="list">Matérias</button>
-        <button class="tab-btn" data-view="insights">Insights</button>
-        <button class="tab-btn" data-view="cruzamento">Cruz.</button>
-      </div>
-      <div class="tab-grid tab-grid-2">
-        <button class="tab-btn" data-view="diario">Diário</button>
-        <button class="tab-btn" data-view="regulacoes">Regulações</button>
-      </div>
-    </div>
-    <div class="sidebar-scroll" id="sb-content"></div>
-    <div class="sb-footer" id="sb-footer">
-      <span class="sb-stat" id="stat-mat">0 mat.</span>
-      <span class="sb-stat" id="stat-ins">0 ins.</span>
-      <span class="sb-stat" id="stat-normas">0 normas</span>
-    </div>
-  </aside>
-
-  <main id="main">
-    <div class="main-scroll" id="main-content"></div>
-  </main>
-</div>
-
-<!-- MODAL ADD -->
-<div class="overlay" id="modal-add" style="display:none">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">Nova Matéria</span>
-      <button id="btn-close-add" class="btn-danger">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-    <div class="mode-tabs">
-      <button class="mode-tab active" data-mode="text">Colar Texto</button>
-      <button class="mode-tab" data-mode="pdf">Subir PDF</button>
-    </div>
-    <div class="modal-body">
+  <div class="hdr">
+    <div class="logo">
+      <div class="logo-mark">₡</div>
       <div>
-        <label class="form-label">URL (opcional)</label>
-        <input class="form-input" id="input-url" placeholder="https://..." type="url"/>
+        <div class="logo-name">Crédito Privado</div>
+        <div class="logo-sub">Leitor de matérias</div>
       </div>
-      <div id="mode-text-area">
-        <label class="form-label">Texto da matéria *</label>
-        <textarea class="form-input" id="input-text" rows="9" placeholder="Cole aqui o conteúdo completo da matéria..."></textarea>
-      </div>
-      <div id="mode-pdf-area" style="display:none">
-        <label class="form-label">Arquivo PDF *</label>
-        <div id="drop-zone" class="drop-zone">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-          <div><p style="font-size:12px;font-weight:600;color:#475569">Arraste o PDF aqui</p><p style="font-size:10px;color:#94a3b8;margin-top:2px">ou clique para selecionar</p></div>
-          <span style="font-size:10px;color:#94a3b8;background:#e2e8f0;padding:2px 10px;border-radius:999px">somente .pdf</span>
-          <input type="file" accept="application/pdf" id="pdf-input"/>
-        </div>
-        <div id="pdf-loaded" class="pdf-loaded" style="display:none">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M10 9H8M16 13H8M16 17H8"/></svg>
-          <div style="flex:1;min-width:0">
-            <p id="pdf-name" style="font-size:12px;font-weight:600;color:#065f46;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></p>
-            <p style="font-size:10px;color:#059669;margin-top:1px">PDF carregado ✓</p>
-          </div>
-          <button id="btn-clear-pdf" style="color:#10b981;cursor:pointer">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-          </button>
-        </div>
-      </div>
-      <p id="modal-error" style="font-size:10px;color:#ef4444;display:none"></p>
-      <p style="font-size:10px;color:#94a3b8">A IA irá extrair insights, regulações BCB/CVM e conexões automáticas.</p>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" id="btn-cancel-add">Cancelar</button>
-      <button class="btn btn-primary" id="btn-analyze" disabled>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-        Analisar e Salvar
-      </button>
-    </div>
+    <button class="cfg-btn" id="btn-cfg" title="Configurações">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
   </div>
+
+  <div class="card">
+    <div class="row">
+      <div style="flex:1">
+        <label class="lbl">URL da matéria</label>
+        <input class="url-inp" id="url-inp" type="url" placeholder="https://braziljournal.com/..."/>
+      </div>
+      <span class="sep">ou</span>
+      <div>
+        <label class="lbl">PDF</label>
+        <label class="pdf-lbl" id="pdf-lbl">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <span id="pdf-txt">Subir PDF</span>
+          <input type="file" id="pdf-inp" accept="application/pdf"/>
+        </label>
+      </div>
+    </div>
+    <p class="err" id="err-msg"></p>
+    <button class="go-btn" id="go-btn" disabled>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Analisar e salvar
+    </button>
+  </div>
+
+  <div id="list"></div>
 </div>
 
-<!-- MODAL SETTINGS -->
-<div class="overlay" id="modal-settings" style="display:none">
-  <div class="modal" style="max-width:420px">
-    <div class="modal-header">
-      <span class="modal-title">⚙ Configurações</span>
-      <button id="btn-close-settings" class="btn-danger">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+<!-- MODAL -->
+<div class="overlay" id="modal" style="display:none">
+  <div class="modal">
+    <div class="mhd">
+      <span class="mhd-title">Configurações</span>
+      <button id="btn-close-modal" style="color:#94a3b8;cursor:pointer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
     </div>
-    <div class="modal-body">
-      <div class="settings-box">
-        <label class="form-label">Chave de API Anthropic</label>
-        <input class="form-input" id="input-apikey" type="password" placeholder="sk-ant-api03-..."/>
-        <p class="api-key-note">Sua chave fica salva <strong>apenas localmente</strong> neste navegador. Obtenha uma em <a href="https://console.anthropic.com/api-keys" target="_blank" style="color:#6366f1">console.anthropic.com/api-keys</a></p>
+    <div class="mbody">
+      <div>
+        <label class="lbl">Chave de API Anthropic</label>
+        <input class="field-input" id="key-inp" type="password" placeholder="sk-ant-api03-..."/>
+        <p class="hint">Guardada só no seu navegador. Crie em <a href="https://console.anthropic.com/api-keys" target="_blank" style="color:#6366f1">console.anthropic.com/api-keys</a></p>
+      </div>
+      <div>
+        <label class="lbl" style="margin-bottom:8px">Backup</label>
+        <div class="exp-row">
+          <button class="exp-btn" id="btn-export">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Exportar
+          </button>
+          <label class="exp-btn" style="cursor:pointer">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            Importar
+            <input type="file" id="imp-inp" accept=".json" style="display:none"/>
+          </label>
+        </div>
+        <p class="imp-status" id="imp-status"></p>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" id="btn-cancel-settings">Cancelar</button>
-      <button class="btn btn-primary" id="btn-save-apikey">Salvar Chave</button>
+    <div class="mft">
+      <button class="m-btn m-btn-ghost" id="btn-cancel">Cancelar</button>
+      <button class="m-btn m-btn-primary" id="btn-save">Salvar</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ══════════════════════════════════════════════════════════════════════
-   STORAGE (localStorage with same key patterns)
-══════════════════════════════════════════════════════════════════════ */
-const storage = {
-  set: (k, v)    => { localStorage.setItem(k, JSON.stringify(v)); },
-  get: (k)       => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch { return null; } },
-  del: (k)       => { localStorage.removeItem(k); },
-  list: (prefix) => Object.keys(localStorage).filter(k => k.startsWith(prefix)),
+/* storage */
+const S = {
+  set: (k,v) => localStorage.setItem(k, JSON.stringify(v)),
+  get: (k)   => { try { const v=localStorage.getItem(k); return v?JSON.parse(v):null; }catch{return null;} },
+  del: (k)   => localStorage.removeItem(k),
+  list:(p)   => Object.keys(localStorage).filter(k=>k.startsWith(p)),
 };
 
-/* ══════════════════════════════════════════════════════════════════════
-   STATE
-══════════════════════════════════════════════════════════════════════ */
-let articles       = [];
-let selected       = null;
-let cruzamento     = null;
-let diarioHistory  = [];
-let diario         = null;
-let selectedDay    = null;
-let currentView    = 'list';
-let expandedItems  = {};
-let savedNews      = {};
-let savingNews     = {};
-let resumoLoading  = false;
-let resumoCredito  = null;    // análise de crédito privado do dia
-let pdfFile        = null;   // { name, base64 }
-let inputMode      = 'text';
+let arts = [];
+let pdf  = null;
+let open = {};
 
-/* ══════════════════════════════════════════════════════════════════════
-   SVG ICONS
-══════════════════════════════════════════════════════════════════════ */
-const svg = {
-  book:     `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
-  ext:      `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></svg>`,
-  trash:    `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2M10 11v6M14 11v6"/></svg>`,
-  chevron:  `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>`,
-  chDown:   `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>`,
-  chUp:     `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>`,
-  trend:    `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m23 6-9.5 9.5-5-5L1 18"/></svg>`,
-  scale:    `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M7 21h10M12 3v18M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>`,
-  landmark: `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7M12 2 2 7h20z"/></svg>`,
-  merge:    `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>`,
-  alert:    `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3z"/><path d="M12 9v4M12 17h.01"/></svg>`,
-  news:     `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2M18 14h-8M15 18h-5M10 6h8v4h-8V6z"/></svg>`,
-  refresh:  `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8M3 3v5h5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16M21 21v-5h-5"/></svg>`,
-  radio:    `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM16.2 7.8c2.3 2.3 2.3 6.1 0 8.5M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>`,
-  cal:      `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v4M16 2v4M3 10h18M21 8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"/></svg>`,
-  link:     `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
-  bmark:    `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`,
-  bmarkOk:  `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/><path d="m9 10 2 2 4-4"/></svg>`,
-  shuffle:  `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>`,
-  shield:   `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
-  tag:      `<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01"/></svg>`,
-  spin: (s=16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>`,
-};
-
-/* ══════════════════════════════════════════════════════════════════════
-   API
-══════════════════════════════════════════════════════════════════════ */
-async function callApi(body) {
-  const key = storage.get('__apikey__');
-  if (!key) { showSettings(); throw new Error('Configure sua chave de API.'); }
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': key,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true',
-    },
-    body: JSON.stringify(body),
-  });
-  if (!resp.ok) {
-    const err = await resp.json().catch(() => ({}));
-    throw new Error(err?.error?.message || `HTTP ${resp.status}`);
-  }
-  return resp.json();
-}
-
-function extractText(content = []) {
-  return (content || []).filter(b => b.type === 'text').map(b => b.text).join('');
-}
-
-/* ══════════════════════════════════════════════════════════════════════
-   LOAD
-══════════════════════════════════════════════════════════════════════ */
-function loadAll() {
-  const artKeys = storage.list('art:');
-  articles = artKeys.map(k => storage.get(k)).filter(Boolean)
-    .sort((a,b) => new Date(b.addedAt) - new Date(a.addedAt));
-  selected = articles[0] || null;
-
-  const cruzSaved = storage.get('cruzamento:latest');
-  if (cruzSaved) cruzamento = cruzSaved;
-
-  const dKeys = storage.list('diario:');
-  diarioHistory = dKeys.map(k => storage.get(k)).filter(Boolean)
-    .sort((a,b) => b.data.localeCompare(a.data));
-  diario = diarioHistory[0] || null;
-  selectedDay = diario?.data || null;
-  if (selectedDay) {
-    const rc = storage.get(`resumo:${selectedDay}`);
-    if (rc) resumoCredito = rc;
-  }
-
-  const apiKey = storage.get('__apikey__');
-  if (!apiKey) showSettings();
-
+function load() {
+  arts = S.list('a:').map(k=>S.get(k)).filter(Boolean)
+         .sort((a,b)=>new Date(b.at)-new Date(a.at));
   render();
+  if (!S.get('__key__')) showModal();
 }
 
-/* ══════════════════════════════════════════════════════════════════════
-   DERIVED
-══════════════════════════════════════════════════════════════════════ */
-function getAllInsights() {
-  return articles.flatMap(a => (a.insights||[]).map(i => ({ ...i, aId: a.id, aTitle: a.title })));
-}
-function getConnected() {
-  return (selected?.conexoes||[]).map(cid => articles.find(a => a.id === cid)).filter(Boolean);
-}
-function getDiarioAtivo() {
-  return selectedDay ? diarioHistory.find(d => d.data === selectedDay) || diario : diario;
-}
-function getRegulacoes() {
-  const map = {};
-  for (const art of articles) {
-    for (const reg of (art.regulacoes||[])) {
-      const k = `${reg.orgao}::${reg.norma}`;
-      if (!map[k]) map[k] = { orgao: reg.orgao, norma: reg.norma, materias: [], relevancia: reg.relevancia };
-      map[k].materias.push({ id: art.id, title: art.title });
-    }
-  }
-  return Object.values(map).sort((a,b) => a.orgao.localeCompare(b.orgao) || b.materias.length - a.materias.length);
-}
-
-/* ══════════════════════════════════════════════════════════════════════
-   ANALYZE & SAVE
-══════════════════════════════════════════════════════════════════════ */
-async function analyzeAndSave({ inputText, inputUrl='', pdfBase64=null }) {
-  const ctx = articles.slice(0,15).map(a =>
-    `[${a.id}] "${a.title}" | Tags: ${(a.tags||[]).join(', ')} | Tese: ${a.tese||''}`
-  ).join('\n');
-
-  const prompt = `Você é um analista sênior de mercado de capitais e regulação financeira brasileira (BCB e CVM).
-Analise ${pdfBase64 ? 'o documento PDF em anexo' : 'a matéria abaixo'} e retorne SOMENTE um JSON válido, sem backticks, sem markdown.
-
-${inputUrl ? `URL: ${inputUrl}\n` : ''}${!pdfBase64 ? `TEXTO:\n${inputText.slice(0,9000)}\n\n` : ''}MATÉRIAS JÁ SALVAS:
-${ctx || 'Nenhuma ainda.'}
-
-JSON:{"title":"...","source":"...","resumo":["bullet1","bullet2","bullet3","bullet4","bullet5"],"tese":"...","insights":[{"texto":"...","categoria":"macro|setor|regulatório|estratégia|risco|oportunidade"}],"tags":["..."],"conexoes":["IDs ou []"],"relevancia":"alta|media|baixa","regulacoes":[{"orgao":"BCB","norma":"...","relevancia":"..."}]}`;
-
-  const messageContent = pdfBase64
-    ? [ { type:'document', source:{ type:'base64', media_type:'application/pdf', data:pdfBase64 } }, { type:'text', text:prompt } ]
-    : prompt;
-
-  const data = await callApi({ model:'claude-sonnet-4-20250514', max_tokens:1500, messages:[{role:'user',content:messageContent}] });
-  const raw = extractText(data.content);
-  const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
-  parsed.regulacoes = parsed.regulacoes||[];
-  parsed.conexoes   = parsed.conexoes||[];
-  parsed.insights   = parsed.insights||[];
-
-  const id = `art:${Date.now()}`;
-  const article = { id, url:inputUrl, addedAt:new Date().toISOString(), ...parsed };
-  storage.set(id, article);
-
-  for (const cid of parsed.conexoes) {
-    const ex = articles.find(a => a.id === cid);
-    if (ex) {
-      const upd = { ...ex, conexoes:[...new Set([...(ex.conexoes||[]),id])] };
-      storage.set(cid, upd);
-      const idx = articles.findIndex(a => a.id === cid);
-      if (idx >= 0) articles[idx] = upd;
-    }
-  }
-  articles = [article, ...articles];
-  selected = article;
-  return article;
-}
-
-/* ══════════════════════════════════════════════════════════════════════
-   DIÁRIO
-══════════════════════════════════════════════════════════════════════ */
-async function buscarDiario() {
-  const hoje      = new Date().toISOString().slice(0,10);
-  const hojeLabel = new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
-
-  // Estrutura de item padrão
-  const itemSchema = '{"portal":"...","titulo":"...","url":"url completa ou null","resumo":"...","temas":[],"relevancia":"alta|media|baixa","insight":"..."}';
-
-  // ── CHAMADA 1: Brazil Journal, NeoFeed, Valor Investe ──
-  const prompt1 = `Analista de crédito BR. Hoje=${hoje}. SOMENTE notícias de hoje.
-Busque: braziljournal.com crédito ${hoje} | neofeed.com.br crédito ${hoje} | valorinveste.globo.com crédito ${hoje}
-JSON: {"manchetes_credito":[${itemSchema}],"manchetes_neofeed":[${itemSchema}],"manchetes_valorinveste":[${itemSchema}]}`;
-
-  // ── CHAMADA 2: BCB, ABBC, Finsiders + termômetro ──
-  const prompt2 = `Analista de crédito BR. Hoje=${hoje}. SOMENTE notícias de hoje.
-Busque: bcb.gov.br/noticias ${hoje} | abbc.org.br blog ${hoje} | finsidersbrasil.com.br ${hoje}
-JSON: {"manchetes_bcb":[${itemSchema}],"manchetes_abbc":[${itemSchema}],"manchetes_finsiders":[${itemSchema}],"termometro":{"sentimento":"positivo|neutro|negativo|misto","resumo_do_dia":"...","palavras_chave":[]},"alertas_regulatorios":[{"orgao":"BCB|CVM","descricao":"..."}]}`;
-
-  // ── CHAMADA 3: ANBIMA, B3, Gestoras de crédito + LinkedIn público ──
-  const prompt3 = `Analista de crédito privado BR. Hoje=${hoje}. SOMENTE conteúdo de hoje.
-Busque:
-- anbima.com.br ${hoje} (notas, releases, comunicados)
-- b3.com.br noticias ${hoje}
-- site:linkedin.com JGP gestora crédito privado ${hoje}
-- site:linkedin.com "Kinea" OR "Itajubá" OR "Sparta" OR "Augme" OR "Plural" crédito ${hoje}
-- site:linkedin.com FIDC OR "crédito privado" OR debentures ${hoje}
-
-Para LinkedIn: busque apenas posts públicos indexados pelo Google. Use o título/trecho disponível na busca como "titulo" e a URL do LinkedIn como "url".
-Retorne SOMENTE JSON:
-{"manchetes_anbima":[${itemSchema}],"manchetes_b3":[${itemSchema}],"manchetes_gestoras":[${itemSchema}],"manchetes_linkedin":[${itemSchema}]}`;
-
-  function parseResult(raw) {
-    const m = raw.match(/\{[\s\S]*\}/);
-    if (!m) return {};
-    try { return JSON.parse(m[0]); } catch { return {}; }
-  }
-
-  // Executa as três chamadas em paralelo
-  const [data1, data2, data3] = await Promise.all([
-    callApi({ model:'claude-sonnet-4-20250514', max_tokens:1500, tools:[{type:'web_search_20250305',name:'web_search'}], messages:[{role:'user',content:prompt1}] }),
-    callApi({ model:'claude-sonnet-4-20250514', max_tokens:1500, tools:[{type:'web_search_20250305',name:'web_search'}], messages:[{role:'user',content:prompt2}] }),
-    callApi({ model:'claude-sonnet-4-20250514', max_tokens:1500, tools:[{type:'web_search_20250305',name:'web_search'}], messages:[{role:'user',content:prompt3}] }),
-  ]);
-
-  const r1 = parseResult((data1.content||[]).filter(b=>b.type==='text').map(b=>b.text).join(''));
-  const r2 = parseResult((data2.content||[]).filter(b=>b.type==='text').map(b=>b.text).join(''));
-  const r3 = parseResult((data3.content||[]).filter(b=>b.type==='text').map(b=>b.text).join(''));
-
-  const parsed = {
-    data: hoje,
-    data_label: hojeLabel,
-    manchetes_credito:      r1.manchetes_credito      || [],
-    manchetes_neofeed:      r1.manchetes_neofeed      || [],
-    manchetes_valorinveste: r1.manchetes_valorinveste || [],
-    manchetes_bcb:          r2.manchetes_bcb          || [],
-    manchetes_abbc:         r2.manchetes_abbc         || [],
-    manchetes_finsiders:    r2.manchetes_finsiders    || [],
-    manchetes_anbima:       r3.manchetes_anbima       || [],
-    manchetes_b3:           r3.manchetes_b3           || [],
-    manchetes_gestoras:     r3.manchetes_gestoras     || [],
-    manchetes_linkedin:     r3.manchetes_linkedin     || [],
-    termometro:             r2.termometro             || {},
-    alertas_regulatorios:   r2.alertas_regulatorios   || [],
+/* api */
+async function api(body) {
+  const k = S.get('__key__');
+  if (!k) { showModal(); throw new Error('Configure a chave de API.'); }
+  const headers = {
+    'Content-Type': 'application/json',
+    'x-api-key': k,
+    'anthropic-version': '2023-06-01',
+    'anthropic-dangerous-direct-browser-access': 'true',
+    'anthropic-beta': 'pdfs-2024-09-25',
   };
-
-  storage.set(`diario:${hoje}`, parsed);
-  const exists = diarioHistory.findIndex(d => d.data === hoje);
-  if (exists>=0) diarioHistory[exists]=parsed;
-  else diarioHistory = [parsed,...diarioHistory].sort((a,b)=>b.data.localeCompare(a.data));
-  diario = parsed; selectedDay = hoje;
-  savedNews = {};
-  resumoCredito = null;  // limpa resumo anterior ao buscar novo dia
-  return parsed;
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST', headers, body: JSON.stringify(body),
+  });
+  if (!r.ok) { const e=await r.json().catch(()=>({})); throw new Error(e?.error?.message||`HTTP ${r.status}`); }
+  return r.json();
 }
 
-async function gerarCruzamento() {
-  const ctx = articles.map(a=>({id:a.id,titulo:a.title,tese:a.tese,insights:(a.insights||[]).map(i=>i.texto),tags:a.tags,regulacoes:(a.regulacoes||[]).map(r=>`${r.orgao}: ${r.norma}`)}));
-  const prompt = `Analista de inteligência de mercado. Cruzamento de ${articles.length} matérias. SOMENTE JSON.\nMATÉRIAS:${JSON.stringify(ctx)}\nJSON:{"tendencias":[{"tema":"...","descricao":"...","materias_relacionadas":["id"],"categoria":"macro|setor|regulatório|estratégia|risco|oportunidade"}],"sinais_de_alerta":[{"sinal":"...","materias":["id"]}],"oportunidades_emergentes":[{"oportunidade":"...","tese":"..."}],"regulacoes_recorrentes":[{"norma":"...","orgao":"BCB|CVM","freq":"...","impacto":"..."}],"sintese":"..."}`;
-  const data = await callApi({ model:'claude-sonnet-4-20250514', max_tokens:1500, messages:[{role:'user',content:prompt}] });
-  const raw = extractText(data.content);
-  const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
-  cruzamento = { ...parsed, geradoEm:new Date().toISOString() };
-  storage.set('cruzamento:latest', cruzamento);
-  return cruzamento;
-}
+/* analyze */
+async function analyze() {
+  const url = document.getElementById('url-inp').value.trim();
+  const err = document.getElementById('err-msg');
+  err.style.display = 'none';
+  const btn = document.getElementById('go-btn');
+  btn.disabled = true; btn.classList.add('busy');
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Analisando…';
 
-async function gerarResumoCredito(d) {
-  // Agrega todos os títulos + resumos do dia em texto compacto
-  const allNews = [
-    ...(d.manchetes_credito||[]),
-    ...(d.manchetes_neofeed||[]),
-    ...(d.manchetes_valorinveste||[]),
-    ...(d.manchetes_bcb||[]),
-    ...(d.manchetes_abbc||[]),
-    ...(d.manchetes_finsiders||[]),
-    ...(d.manchetes_anbima||[]),
-    ...(d.manchetes_b3||[]),
-    ...(d.manchetes_gestoras||[]),
-    ...(d.manchetes_linkedin||[]),
-  ].map(n => `[${n.portal}] ${n.titulo}: ${n.resumo}`).join('\n');
+  try {
+    const prev = arts.slice(0,8).map(a=>`[${a.id}] "${a.title}"`).join('\n');
+    const prompt = `Você é analista sênior de crédito privado brasileiro. Analise ${pdf?'o PDF em anexo':'a matéria da URL abaixo'} com profundidade e retorne SOMENTE JSON válido sem backticks.
+${url?`URL: ${url}\n`:''}${!pdf?'Acesse a URL e extraia o conteúdo completo.\n':''}
+Matérias anteriores (para detectar conexões):
+${prev||'Nenhuma.'}
 
-  if (!allNews.trim()) return null;
-
-  const prompt = `Você é especialista em crédito privado e mercado de capitais estruturado no Brasil.
-
-Com base nas notícias do dia abaixo, gere uma análise sintética focada em crédito privado e estruturado.
-SOMENTE JSON válido, sem backticks:
-
-NOTÍCIAS:
-${allNews.slice(0,6000)}
+INSTRUÇÕES:
+- "resumo": 6-8 bullets detalhados. Cada bullet deve ser rico, com números, percentuais, nomes de empresas, prazos e contexto específico mencionados no artigo. Não generalize — cite os fatos exatos.
+- "detalhes_micro": fatos granulares e técnicos do artigo: valores (R$, %), datas, nomes de instrumentos (FIDC, CRI, CRA, debêntures), spreads, ratings, emissores, estruturas — tudo que for específico e acionável.
+- "citacoes": frases literais ou parafraseadas de pessoas citadas no artigo (executivos, gestores, reguladores, analistas). Inclua nome e cargo/empresa de quem disse.
+- "insights": 3-5 insights acionáveis para quem opera crédito privado.
 
 JSON:
 {
-  "sintese_executiva": "parágrafo de 3-4 frases com visão geral do dia para quem opera crédito privado",
-  "destaques": [
-    {"titulo":"...","descricao":"...","impacto":"positivo|negativo|neutro"}
+  "title": "título exato da matéria",
+  "source": "veículo/portal",
+  "relevancia": "alta|media|baixa",
+  "tese": "argumento central em 1-2 frases densas",
+  "resumo": [
+    "bullet detalhado com fatos específicos, números e contexto",
+    "bullet 2", "bullet 3", "bullet 4", "bullet 5", "bullet 6"
   ],
-  "oportunidades": [
-    {"ativo":"ex: debêntures, CRI, FIDC, CRA","tese":"por que é oportunidade hoje","prazo":"curto|médio|longo"}
+  "detalhes_micro": [
+    {"item": "descrição do detalhe técnico ou número específico", "tipo": "valor|prazo|rating|spread|emissor|estrutura|regulação|outro"}
   ],
-  "riscos": [
-    {"risco":"...","relevancia":"alta|media|baixa"}
+  "citacoes": [
+    {"frase": "texto da citação ou paráfrase fiel", "pessoa": "Nome da Pessoa", "cargo": "Cargo — Empresa"}
   ],
-  "setores_em_foco": ["setor1","setor2"],
-  "instrumentos_monitorar": ["FIDC","CRI","debêntures",...]
+  "insights": [
+    {"texto": "insight acionável para crédito privado", "categoria": "macro|setor|regulatório|estratégia|risco|oportunidade"}
+  ],
+  "tags": ["tag1","tag2","tag3","tag4"],
+  "regulacoes": [
+    {"orgao": "BCB|CVM", "norma": "nome da norma ou resolução", "relevancia": "impacto específico para o mercado"}
+  ],
+  "conexoes": []
 }`;
 
-  const data = await callApi({ model:'claude-sonnet-4-20250514', max_tokens:1200, messages:[{role:'user',content:prompt}] });
-  const raw = extractText(data.content);
-  try {
-    const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
-    storage.set(`resumo:${d.data}`, parsed);
-    return parsed;
-  } catch { return null; }
+    const content = pdf
+      ? [
+          {
+            type: 'document',
+            source: { type: 'base64', media_type: 'application/pdf', data: pdf.b64 },
+            cache_control: { type: 'ephemeral' }
+          },
+          { type: 'text', text: prompt }
+        ]
+      : prompt;
+
+    const data = await api({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content}]});
+    const raw  = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+    const p    = JSON.parse(raw.replace(/```json|```/g,'').trim());
+
+    p.resumo         = p.resumo         || [];
+    p.detalhes_micro = p.detalhes_micro || [];
+    p.citacoes       = p.citacoes       || [];
+    p.insights       = p.insights       || [];
+    p.tags           = p.tags           || [];
+    p.regulacoes     = p.regulacoes     || [];
+    p.conexoes       = p.conexoes       || [];
+
+    const id  = `a:${Date.now()}`;
+    const art = {id, url, at: new Date().toISOString(), ...p};
+    S.set(id, art);
+
+    for (const cid of p.conexoes) {
+      const ex = arts.find(a=>a.id===cid);
+      if (ex) { const u={...ex,conexoes:[...new Set([...(ex.conexoes||[]),id])]}; S.set(cid,u); arts[arts.findIndex(a=>a.id===cid)]=u; }
+    }
+
+    arts = [art, ...arts];
+    open[id] = true;
+    document.getElementById('url-inp').value = '';
+    pdf = null;
+    document.getElementById('pdf-txt').textContent = 'Subir PDF';
+    document.getElementById('pdf-lbl').classList.remove('ok');
+    render();
+  } catch(e) {
+    err.textContent = e.message||'Erro. Tente novamente.';
+    err.style.display = 'block';
+  }
+
+  btn.classList.remove('busy'); btn.disabled = !document.getElementById('url-inp').value && !pdf;
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg> Analisar e salvar';
 }
 
-const CAT_CLASS = {macro:'badge-cat-macro',setor:'badge-cat-setor','regulatório':'badge-cat-regulatório','estratégia':'badge-cat-estratégia',risco:'badge-cat-risco',oportunidade:'badge-cat-oportunidade'};
-const SENT_CLASS = {positivo:'termo-pos',negativo:'termo-neg',misto:'termo-mix',neutro:'termo-neu'};
-const SENT_BADGE = {positivo:'badge-pos',negativo:'badge-neg',misto:'badge-mix',neutro:'badge-neu'};
-const PORTAL_BADGE = {
-  'Brazil Journal':'badge-bj', NeoFeed:'badge-nf', 'Valor Investe':'badge-vi',
-  BCB:'badge-bcbnot', ABBC:'badge-abbc', Finsiders:'badge-fins',
-  ANBIMA:'badge-anbima', B3:'badge-b3', Gestoras:'badge-gestoras', LinkedIn:'badge-linkedin',
-};
-const PORTAL_KEY = {
-  'Brazil Journal':'manchetes_credito', 'NeoFeed':'manchetes_neofeed', 'Valor Investe':'manchetes_valorinveste',
-  BCB:'manchetes_bcb', ABBC:'manchetes_abbc', Finsiders:'manchetes_finsiders',
-  ANBIMA:'manchetes_anbima', B3:'manchetes_b3', Gestoras:'manchetes_gestoras', LinkedIn:'manchetes_linkedin',
-};
-const ORG_BADGE = {BCB:'badge-bcb',CVM:'badge-cvm'};
-const ORG_CLASS = {BCB:'reg-card-bcb',CVM:'reg-card-cvm'};
-
-function ptDate(iso) { try { return new Date(iso).toLocaleDateString('pt-BR'); } catch { return iso; } }
-
-function newsCard(n, eKey, portalLabel) {
-  const expanded  = expandedItems[eKey];
-  const isSaved   = savedNews[eKey];
-  const isSaving  = savingNews[eKey];
-  const hasUrl    = n.url && n.url !== 'null' && n.url !== null;
-  const pc        = PORTAL_BADGE[n.portal] || 'badge-bj';
-  return `
-    <div class="news-card" id="nc-${eKey}">
-      <div class="news-body">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
-          <div style="display:flex;flex-wrap:wrap;gap:4px">
-            <span class="badge badge-${n.relevancia||'baixa'}">${(n.relevancia||'—').toUpperCase()}</span>
-            ${(n.temas||[]).slice(0,2).map(t=>`<span style="font-size:9.5px;color:#64748b;background:#f8fafc;border:1px solid #f1f5f9;padding:1px 6px;border-radius:5px">${t}</span>`).join('')}
-          </div>
-          <div style="display:flex;gap:4px;align-items:center;flex-shrink:0">
-            <button class="btn-save ${isSaved?'btn-save-done':'btn-save-idle'}" onclick="saveNewsItem('${eKey}')" ${isSaved?'disabled':''}>
-              ${isSaving ? svg.spin(10) : isSaved ? svg.bmarkOk : svg.bmark}
-              ${isSaving?'Salvando…':isSaved?'Salvo':'Salvar'}
-            </button>
-            <button style="color:#cbd5e1;cursor:pointer;padding:2px" onclick="toggleExpand('${eKey}')">
-              ${expanded ? svg.chUp : svg.chDown}
-            </button>
-          </div>
-        </div>
-        <p style="font-size:12px;font-weight:600;color:#0f172a;line-height:1.4;margin-bottom:6px">${n.titulo}</p>
-        ${hasUrl ? `<a href="${n.url}" target="_blank" style="font-size:10px;color:#6366f1;display:flex;align-items:center;gap:3px;margin-bottom:6px;word-break:break-all">${svg.ext} ${n.url}</a>` : ''}
-        ${n.insight ? `<div class="insight-box">${svg.trend}<span class="insight-text">${n.insight}</span></div>` : ''}
-      </div>
-      ${expanded ? `<div class="news-expand"><p style="font-size:12px;color:#334155;line-height:1.6">${n.resumo}</p></div>` : ''}
-    </div>`;
-}
-
-/* ══════════════════════════════════════════════════════════════════════
-   RENDER SIDEBAR
-══════════════════════════════════════════════════════════════════════ */
-function renderSidebar() {
-  const allInsights = getAllInsights();
-  const regs = getRegulacoes();
-  document.getElementById('stat-mat').textContent   = `${articles.length} mat.`;
-  document.getElementById('stat-ins').textContent   = `${allInsights.length} ins.`;
-  document.getElementById('stat-normas').textContent = `${regs.length} normas`;
-
-  let html = '';
-
-  if (currentView === 'list') {
-    if (!articles.length) {
-      html = `<div style="padding:20px 10px;text-align:center"><p style="font-size:10px;color:rgba(255,255,255,.25)">Nenhuma matéria.<br>Clique em + para adicionar.</p></div>`;
-    } else {
-      html = articles.map(a => `
-        <button class="art-item ${selected?.id===a.id?'active':''}" onclick="selectArticle('${a.id}')">
-          <span class="art-dot ${a.relevancia||'baixa'}">●</span>
-          <div style="min-width:0">
-            <p class="art-name">${a.title}</p>
-            <p class="art-src">${a.source||''}</p>
-          </div>
-        </button>`).join('');
-      html = `<div style="padding:6px">${html}</div>`;
-    }
-  }
-
-  if (currentView === 'insights') {
-    const cats = ['macro','setor','regulatório','estratégia','risco','oportunidade'];
-    html = `<div style="padding:8px">`;
-    for (const cat of cats) {
-      const items = allInsights.filter(i => i.categoria === cat);
-      if (!items.length) continue;
-      html += `<div style="margin-bottom:10px"><span class="ins-cat ${CAT_CLASS[cat]||''}">${cat}</span>`;
-      html += items.map(i=>`<button class="ins-item" onclick="selectArticle('${i.aId}')"><p class="ins-text">${i.texto}</p><p class="ins-ref">${i.aTitle}</p></button>`).join('');
-      html += `</div>`;
-    }
-    html += `</div>`;
-  }
-
-  if (currentView === 'cruzamento') {
-    html = `<div style="padding:8px;display:flex;flex-direction:column;gap:8px">
-      <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:11px" onclick="triggerCruzamento()" ${articles.length<2?'disabled':''}>
-        ${svg.shuffle} Gerar Cruzamento
-      </button>
-      ${articles.length<2?'<p style="font-size:9px;color:rgba(255,255,255,.25);text-align:center">Adicione ≥2 matérias.</p>':''}
-      ${cruzamento?.sintese?`<div style="background:rgba(79,124,255,.1);border:1px solid rgba(79,124,255,.2);border-radius:8px;padding:8px"><p style="font-size:9px;font-weight:700;color:#7aa3ff;text-transform:uppercase;margin-bottom:3px">Síntese</p><p style="font-size:9.5px;color:rgba(255,255,255,.7);line-height:1.5">${cruzamento.sintese}</p></div>`:''}
-    </div>`;
-  }
-
-  if (currentView === 'diario') {
-    html = `<div style="padding:8px;display:flex;flex-direction:column;gap:6px">
-      <button class="btn btn-emerald" style="width:100%;justify-content:center;font-size:11px" id="btn-buscar" onclick="triggerDiario()">
-        ${svg.radio} Buscar Hoje
-      </button>
-      <p style="font-size:9px;color:rgba(255,255,255,.3);text-align:center">BJ · NF · VI · BCB · ABBC · Fins · ANBIMA · B3 · Gestoras · LinkedIn</p>
-      <div id="diario-error" style="font-size:9px;color:#f87171;text-align:center;display:none"></div>
-      ${diarioHistory.map(d=>`
-        <button class="dia-item ${selectedDay===d.data?'active':''}" onclick="selectDay('${d.data}')">
-          <div class="dia-date">${svg.cal} ${d.data_label||d.data}</div>
-          <p class="dia-count">${(d.manchetes_credito?.length||0)+(d.manchetes_neofeed?.length||0)+(d.manchetes_valorinveste?.length||0)+(d.manchetes_bcb?.length||0)+(d.manchetes_abbc?.length||0)+(d.manchetes_finsiders?.length||0)+(d.manchetes_anbima?.length||0)+(d.manchetes_b3?.length||0)+(d.manchetes_gestoras?.length||0)+(d.manchetes_linkedin?.length||0)} notícias</p>
-        </button>`).join('')}
-    </div>`;
-  }
-
-  if (currentView === 'regulacoes') {
-    const regBCB = regs.filter(r=>r.orgao==='BCB');
-    const regCVM = regs.filter(r=>r.orgao==='CVM');
-    if (!articles.length) {
-      html = `<div style="padding:20px 10px;text-align:center"><p style="font-size:10px;color:rgba(255,255,255,.25)">Analise matérias para ver regulações.</p></div>`;
-    } else {
-      html = `<div style="padding:8px"><p style="font-size:9px;color:rgba(255,255,255,.3);text-align:center;margin-bottom:8px">${regs.length} normas</p>`;
-      for (const [org, list] of [['BCB',regBCB],['CVM',regCVM]]) {
-        if (!list.length) continue;
-        html += `<div style="margin-bottom:10px"><span class="badge ${ORG_BADGE[org]}" style="margin-bottom:6px;display:inline-flex">${svg.landmark} ${org}</span>`;
-        html += list.map(r=>`<div style="padding:3px 4px;margin-bottom:2px"><p style="font-size:9px;font-weight:600;color:rgba(255,255,255,.6);line-height:1.3">${r.norma}</p><p style="font-size:8.5px;color:rgba(255,255,255,.25)">${r.materias.length}×</p></div>`).join('');
-        html += `</div>`;
-      }
-      html += `</div>`;
-    }
-  }
-
-  document.getElementById('sb-content').innerHTML = html;
-}
-
-/* ══════════════════════════════════════════════════════════════════════
-   RENDER MAIN CONTENT
-══════════════════════════════════════════════════════════════════════ */
-function renderMain() {
-  const el = document.getElementById('main-content');
-
-  /* ── REGULAÇÕES ── */
-  if (currentView === 'regulacoes') {
-    const regs = getRegulacoes();
-    if (!articles.length) { el.innerHTML = emptyHtml(svg.scale, 'Radar Regulatório', 'Analise matérias para extrair regulações BCB e CVM automaticamente.'); return; }
-    const regBCB = regs.filter(r=>r.orgao==='BCB');
-    const regCVM = regs.filter(r=>r.orgao==='CVM');
-    let html = `<div class="page-header"><div><div class="page-title">${svg.scale} Radar Regulatório</div><p class="page-subtitle">${regs.length} normas identificadas em ${articles.length} matérias</p></div></div>`;
-    for (const [org, list, label] of [['BCB',regBCB,'Banco Central do Brasil'],['CVM',regCVM,'Comissão de Valores Mobiliários']]) {
-      if (!list.length) continue;
-      const oc = ORG_BADGE[org];
-      html += `<div class="org-section"><div class="org-divider"><span class="badge ${oc}" style="font-size:11px;padding:4px 10px">${svg.landmark} ${org}</span><span style="font-size:10px;color:#64748b">${label}</span><span style="margin-left:auto;font-size:10px;color:#94a3b8">${list.length} normas</span></div>`;
-      html += `<div style="display:flex;flex-direction:column;gap:8px">`;
-      html += list.map(r => {
-        const freq = r.materias.length;
-        const freqClass = freq>=3?'badge-alta':freq===2?'badge-media':'badge-baixa';
-        return `<div class="${ORG_CLASS[org]}" style="border-radius:12px">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px">
-            <p style="font-size:12px;font-weight:700;color:#1e293b;line-height:1.4">${r.norma}</p>
-            <span class="reg-freq-badge ${freqClass}" style="flex-shrink:0">${freq}×</span>
-          </div>
-          ${r.relevancia?`<p style="font-size:10px;color:#475569;line-height:1.5;margin-bottom:8px">${r.relevancia}</p>`:''}
-          <div style="display:flex;flex-wrap:wrap;gap:4px">${r.materias.map(m=>`<button onclick="selectArticle('${m.id}')" style="font-size:9.5px;background:#fff;border:1px solid #e2e8f0;color:#475569;padding:2px 8px;border-radius:6px;cursor:pointer;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.title}</button>`).join('')}</div>
-        </div>`;
-      }).join('');
-      html += `</div></div>`;
-    }
-    el.innerHTML = html; return;
-  }
-
-  /* ── DIÁRIO ── */
-  if (currentView === 'diario') {
-    const d = getDiarioAtivo();
-    if (!d) { el.innerHTML = emptyHtml(svg.news, 'Diário de Crédito', 'Clique em <strong>Buscar Hoje</strong> no painel esquerdo.'); return; }
-    const sent = d.termometro?.sentimento || 'neutro';
-    const tc = SENT_CLASS[sent] || 'termo-neu';
-    const tb = SENT_BADGE[sent] || 'badge-neu';
-    let html = `<div class="page-header">
-      <div><div class="page-title">${svg.news} Diário de Crédito</div><p class="page-subtitle">${d.data_label||d.data}</p></div>
-      <button class="btn btn-outline" onclick="triggerDiario()">${svg.refresh} Atualizar</button>
-    </div>`;
-    if (d.termometro) {
-      html += `<div class="${tc}" style="margin-bottom:16px">
-        <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px"><span class="badge ${tb}">${sent.toUpperCase()}</span><span style="font-size:10px;color:#64748b;font-weight:500">Sentimento do mercado de crédito</span></div>
-        <p style="font-size:12px;color:#334155;line-height:1.6;margin-bottom:8px">${d.termometro.resumo_do_dia||''}</p>
-        ${d.termometro.palavras_chave?.length?`<div style="display:flex;flex-wrap:wrap;gap:4px">${d.termometro.palavras_chave.map(p=>`<span style="font-size:10px;padding:2px 8px;background:#fff;border:1px solid #e2e8f0;color:#475569;border-radius:999px">${p}</span>`).join('')}</div>`:''}
-      </div>`;
-    }
-    // ── PAINEL CRÉDITO PRIVADO ──
-    html += `<div class="resumo-panel">
-      <div class="resumo-panel-header">
-        <div class="resumo-panel-title">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7aa3ff" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          Crédito Privado &amp; Estruturado — Análise do Dia
-        </div>
-        ${resumoLoading
-          ? `<div class="resumo-loading">${svg.spin(13)} Analisando…</div>`
-          : `<button class="btn-gerar-resumo" onclick="triggerResumo()">
-              ${resumoCredito
-                ? svg.refresh + ' Atualizar'
-                : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg> Gerar'
-              }
-            </button>`
-        }
-      </div>`;
-
-    if (resumoLoading) {
-      html += `<div class="resumo-loading" style="justify-content:center;padding:20px 0">${svg.spin(16)} <span>Gerando análise de crédito privado…</span></div>`;
-    } else if (!resumoCredito) {
-      html += `<div style="text-align:center;padding:16px 0">
-        <p style="font-size:11px;color:rgba(240,244,250,.4);margin-bottom:12px">Síntese das notícias do dia com foco em crédito privado, debêntures, FIDC, CRI, CRA e estruturados.</p>
-        <button class="btn-gerar-resumo" onclick="triggerResumo()" style="margin:0 auto">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg>
-          Gerar Análise de Crédito Privado
-        </button>
-      </div>`;
-    } else {
-      const rc = resumoCredito;
-      // síntese
-      if (rc.sintese_executiva) {
-        html += `<p class="resumo-sint">${rc.sintese_executiva}</p>`;
-      }
-      // grid: oportunidades + riscos
-      html += `<div class="resumo-grid">`;
-
-      // oportunidades
-      if (rc.oportunidades?.length) {
-        html += `<div class="resumo-block">
-          <div class="resumo-block-title" style="color:#4ade80">▲ Oportunidades</div>`;
-        html += rc.oportunidades.map(o => `
-          <div class="resumo-item">
-            <span class="resumo-dot" style="color:#4ade80">●</span>
-            <div>
-              <span style="font-size:10px;font-weight:700;color:#86efac">${o.ativo}</span>
-              <span style="font-size:9px;color:rgba(255,255,255,.35);margin:0 4px">·</span>
-              <span style="font-size:9px;color:rgba(255,255,255,.4);background:rgba(255,255,255,.07);padding:1px 5px;border-radius:4px">${o.prazo}</span>
-              <p style="font-size:10px;color:rgba(240,244,250,.65);margin-top:2px;line-height:1.5">${o.tese}</p>
-            </div>
-          </div>`).join('');
-        html += `</div>`;
-      }
-
-      // riscos
-      if (rc.riscos?.length) {
-        html += `<div class="resumo-block">
-          <div class="resumo-block-title" style="color:#f87171">▼ Riscos</div>`;
-        html += rc.riscos.map(r => {
-          const dotColor = r.relevancia==='alta'?'#f87171':r.relevancia==='media'?'#fbbf24':'#94a3b8';
-          return `<div class="resumo-item">
-            <span class="resumo-dot" style="color:${dotColor}">●</span>
-            <p style="font-size:10px;color:rgba(240,244,250,.65);line-height:1.5">${r.risco}</p>
-          </div>`;
-        }).join('');
-        html += `</div>`;
-      }
-
-      html += `</div>`;
-
-      // destaques
-      if (rc.destaques?.length) {
-        html += `<div class="resumo-block" style="margin-bottom:10px">
-          <div class="resumo-block-title" style="color:#a5b4fc">★ Destaques</div>`;
-        html += rc.destaques.map(d => {
-          const impColor = d.impacto==='positivo'?'#4ade80':d.impacto==='negativo'?'#f87171':'#94a3b8';
-          return `<div style="margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.05)">
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
-              <span style="font-size:10px;font-weight:700;color:rgba(240,244,250,.9)">${d.titulo}</span>
-              <span style="font-size:9px;font-weight:700;color:${impColor};background:rgba(255,255,255,.06);padding:1px 6px;border-radius:4px;font-family:'IBM Plex Mono',monospace">${d.impacto}</span>
-            </div>
-            <p style="font-size:10px;color:rgba(240,244,250,.55);line-height:1.5">${d.descricao}</p>
-          </div>`;
-        }).join('');
-        html += `</div>`;
-      }
-
-      // chips: setores + instrumentos
-      if (rc.setores_em_foco?.length || rc.instrumentos_monitorar?.length) {
-        html += `<div class="resumo-chips">`;
-        if (rc.setores_em_foco?.length) {
-          html += rc.setores_em_foco.map(s =>
-            `<span class="resumo-chip" style="background:rgba(79,124,255,.12);color:#7aa3ff;border-color:rgba(79,124,255,.25)">${s}</span>`
-          ).join('');
-        }
-        if (rc.instrumentos_monitorar?.length) {
-          html += rc.instrumentos_monitorar.map(i =>
-            `<span class="resumo-chip" style="background:rgba(74,222,128,.08);color:#4ade80;border-color:rgba(74,222,128,.2)">${i}</span>`
-          ).join('');
-        }
-        html += `</div>`;
-      }
-    }
-
-    html += `</div>`; // fecha resumo-panel
-
-    if (d.alertas_regulatorios?.length) {      html += `<div style="margin-bottom:16px"><div class="sec-title">${svg.scale} Alertas Regulatórios</div>`;
-      html += d.alertas_regulatorios.map(a=>{
-        const oc = ORG_BADGE[a.orgao]||'badge-bcb';
-        return `<div class="${ORG_CLASS[a.orgao]||'reg-card-bcb'}" style="border-radius:8px;display:flex;gap:8px;margin-bottom:4px">${svg.landmark}<div><span style="font-size:10px;font-weight:700;text-transform:uppercase;margin-right:5px">${a.orgao}</span><span style="font-size:10px">${a.descricao}</span></div></div>`;
-      }).join('');
-      html += `</div>`;
-    }
-    for (const [key, portal] of [
-      ['manchetes_credito',     'Brazil Journal'],
-      ['manchetes_neofeed',     'NeoFeed'],
-      ['manchetes_valorinveste','Valor Investe'],
-      ['manchetes_bcb',         'BCB'],
-      ['manchetes_abbc',        'ABBC'],
-      ['manchetes_finsiders',   'Finsiders'],
-      ['manchetes_anbima',      'ANBIMA'],
-      ['manchetes_b3',          'B3'],
-      ['manchetes_gestoras',    'Gestoras'],
-      ['manchetes_linkedin',    'LinkedIn'],
-    ]) {
-      const noticias = d[key] || [];
-      const pb = PORTAL_BADGE[portal];
-      html += `<div style="margin-bottom:18px"><div style="display:flex;align-items:center;gap:7px;margin-bottom:10px">
-        <span class="badge ${pb}">${portal}</span>
-        <span style="font-size:10px;color:#94a3b8">${noticias.length===0?'nenhuma notícia hoje':`${noticias.length} notícia${noticias.length!==1?'s':''} de hoje`}</span>
-      </div>`;
-      if (!noticias.length) { html += `<p style="font-size:10px;color:#94a3b8;font-style:italic">Nenhuma notícia de crédito encontrada hoje neste portal.</p>`; }
-      else { html += noticias.map((n,i) => newsCard(n, `${key}-${i}`, portal)).join(''); }
-      html += `</div>`;
-    }
-    el.innerHTML = html; return;
-  }
-
-  /* ── CRUZAMENTO ── */
-  if (currentView === 'cruzamento') {
-    if (!cruzamento) { el.innerHTML = emptyHtml(svg.merge, 'Cruzamento de Insights', 'Clique em "Gerar Cruzamento" no painel esquerdo.'); return; }
-    let html = `<div class="page-header">
-      <div class="page-title">${svg.merge} Cruzamento de Insights</div>
-      <button class="btn btn-outline" onclick="triggerCruzamento()">${svg.refresh} Atualizar</button>
-    </div>
-    <div class="sint-box" style="margin-bottom:16px">
-      <p class="sec-title" style="margin-bottom:4px">Visão Macro</p>
-      <p style="font-size:12px;color:#3730a3;line-height:1.6">${cruzamento.sintese||''}</p>
-    </div>`;
-    if (cruzamento.tendencias?.length) {
-      html += `<div style="margin-bottom:16px"><div class="sec-title">Tendências Transversais</div>`;
-      html += cruzamento.tendencias.map(t=>`<div class="tend-card" style="margin-bottom:8px">
-        <span class="badge ${CAT_CLASS[t.categoria]||''}" style="flex-shrink:0;margin-top:1px">${t.categoria}</span>
-        <div style="flex:1;min-width:0">
-          <p style="font-size:12px;font-weight:700;color:#1e293b;margin-bottom:3px">${t.tema}</p>
-          <p style="font-size:10px;color:#64748b;line-height:1.5;margin-bottom:6px">${t.descricao}</p>
-          ${t.materias_relacionadas?.length?`<div style="display:flex;flex-wrap:wrap;gap:3px">${t.materias_relacionadas.map(mid=>{const ma=articles.find(a=>a.id===mid);return ma?`<button onclick="selectArticle('${mid}')" style="font-size:9.5px;background:#eef2ff;color:#4f46e5;border:1px solid #c7d2fe;padding:1px 7px;border-radius:5px;cursor:pointer;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${ma.title}</button>`:''}).join('')}</div>`:'' }
-        </div>
-      </div>`).join('');
-      html += `</div>`;
-    }
-    if (cruzamento.sinais_de_alerta?.length) {
-      html += `<div style="margin-bottom:16px"><div class="sec-title">${svg.alert} Sinais de Alerta</div>`;
-      html += cruzamento.sinais_de_alerta.map(s=>`<div class="alerta-card" style="margin-bottom:6px">${svg.alert}<p style="font-size:10px;color:#991b1b;line-height:1.5">${s.sinal}</p></div>`).join('');
-      html += `</div>`;
-    }
-    if (cruzamento.oportunidades_emergentes?.length) {
-      html += `<div style="margin-bottom:16px"><div class="sec-title">${svg.trend} Oportunidades Emergentes</div>`;
-      html += cruzamento.oportunidades_emergentes.map(o=>`<div class="opor-card" style="margin-bottom:6px"><p style="font-size:12px;font-weight:700;color:#1e293b;margin-bottom:3px">${o.oportunidade}</p><p style="font-size:10px;color:#64748b;line-height:1.5">${o.tese}</p></div>`).join('');
-      html += `</div>`;
-    }
-    if (cruzamento.regulacoes_recorrentes?.length) {
-      html += `<div style="margin-bottom:16px"><div class="sec-title">${svg.scale} Regulamentações Recorrentes</div>`;
-      html += cruzamento.regulacoes_recorrentes.map(r=>{const oc=ORG_CLASS[r.orgao]||'reg-card-bcb';return`<div class="${oc}" style="border-radius:8px;margin-bottom:6px"><div style="display:flex;align-items:center;gap:5px;margin-bottom:3px">${svg.landmark}<span style="font-size:10px;font-weight:700;text-transform:uppercase">${r.orgao}</span>${r.freq?`<span style="font-size:9px;opacity:.6">· ${r.freq}</span>`:''}</div><p style="font-size:11px;font-weight:600;margin-bottom:2px">${r.norma}</p><p style="font-size:10px;opacity:.75;line-height:1.5">${r.impacto||''}</p></div>`;}).join('');
-      html += `</div>`;
-    }
-    el.innerHTML = html; return;
-  }
-
-  /* ── ARTICLE DETAIL ── */
-  if (!selected) { el.innerHTML = emptyHtml(svg.book, 'Inteligência de Crédito', 'Adicione uma matéria clicando em +'); return; }
-  const art = selected;
-  const conn = getConnected();
-  let html = `
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px">
-      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-        <span class="badge badge-${art.relevancia||'baixa'}">${(art.relevancia||'—').toUpperCase()}</span>
-        <span style="font-size:11px;color:#64748b">${art.source||''}</span>
-        <span style="font-size:10px;color:#cbd5e1">·</span>
-        <span style="font-size:10px;color:#94a3b8">${ptDate(art.addedAt)}</span>
-      </div>
-      <button class="btn btn-danger" onclick="deleteArticle('${art.id}')">${svg.trash}</button>
-    </div>
-    <h1 style="font-size:18px;font-weight:700;color:#0f172a;line-height:1.35;margin-bottom:10px">${art.title}</h1>
-    ${art.url?`<a href="${art.url}" target="_blank" style="font-size:10px;color:#6366f1;display:flex;align-items:center;gap:3px;margin-bottom:14px">${svg.ext} Ver matéria original</a>`:''}
-    <div class="tese-box" style="margin-bottom:14px">
-      <p style="font-size:9.5px;font-weight:700;color:#818cf8;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;font-family:'IBM Plex Mono',monospace">Tese central</p>
-      <p style="font-size:12px;color:#3730a3;line-height:1.6">${art.tese||''}</p>
-    </div>
-    ${art.tags?.length?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px">${art.tags.map(t=>`<span class="tag-chip">${svg.tag} ${t}</span>`).join('')}</div>`:''}
-    <div style="margin-bottom:16px">
-      <div class="sec-title">Resumo Executivo</div>
-      <div class="card card-sm">
-        ${(art.resumo||[]).map(b=>`<div style="display:flex;gap:8px;margin-bottom:6px;font-size:11px;color:#334155;line-height:1.6"><span style="color:#a5b4fc;font-weight:700;flex-shrink:0;font-family:'IBM Plex Mono'">›</span><span>${b}</span></div>`).join('')}
-      </div>
-    </div>
-    <div style="margin-bottom:16px">
-      <div class="sec-title">Insights de Mercado</div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        ${(art.insights||[]).map(i=>`<div class="ins-card"><span class="badge ${CAT_CLASS[i.categoria]||''}" style="flex-shrink:0;margin-top:1px">${i.categoria}</span><p style="font-size:11px;color:#1e293b;line-height:1.5;padding-top:1px">${i.texto}</p></div>`).join('')}
-      </div>
-    </div>`;
-  if (art.regulacoes?.length) {
-    html += `<div style="margin-bottom:16px"><div class="sec-title">${svg.scale} Regulamentações</div><div style="display:flex;flex-direction:column;gap:6px">`;
-    html += art.regulacoes.map(r=>`<div class="${ORG_CLASS[r.orgao]||'reg-card-bcb'}" style="border-radius:10px">
-      <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px">${svg.landmark}<span style="font-size:10px;font-weight:700;text-transform:uppercase">${r.orgao}</span>${svg.shield}</div>
-      <p style="font-size:10px;font-weight:700;margin-bottom:2px;line-height:1.4">${r.norma}</p>
-      <p style="font-size:10px;opacity:.7;line-height:1.5">${r.relevancia||''}</p>
-    </div>`).join('');
-    html += `</div></div>`;
-  }
-  if (conn.length) {
-    html += `<div style="margin-bottom:16px"><div class="sec-title">${svg.link} Matérias Relacionadas</div>`;
-    html += conn.map(ca=>`<button class="conn-item" style="margin-bottom:6px" onclick="selectArticle('${ca.id}')">
-      ${svg.chevron}
-      <div style="flex:1;min-width:0">
-        <p style="font-size:11px;font-weight:600;color:#1e293b;line-height:1.4">${ca.title}</p>
-        <p style="font-size:10px;color:#94a3b8;margin-top:2px">${ca.source||''}</p>
-        <div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px">${(ca.tags||[]).slice(0,4).map(t=>`<span class="tag-chip" style="font-size:9px;padding:1px 5px">${t}</span>`).join('')}</div>
-      </div>
-      <span style="font-size:9px;color:${ca.relevancia==='alta'?'#ef4444':ca.relevancia==='media'?'#f59e0b':'#cbd5e1'}">●</span>
-    </button>`).join('');
-    html += `</div>`;
-  }
-  el.innerHTML = html;
-}
-
-function emptyHtml(icon, title, sub) {
-  return `<div class="empty">${icon}<p class="empty-title">${title}</p><p class="empty-sub">${sub}</p></div>`;
-}
+/* render */
+const CC = {macro:'c-macro',setor:'c-setor','regulatório':'c-regulatório','estratégia':'c-estratégia',risco:'c-risco',oportunidade:'c-oportunidade'};
 
 function render() {
-  renderSidebar();
-  renderMain();
-  // update active tab
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.view === currentView);
-  });
-}
-
-/* ══════════════════════════════════════════════════════════════════════
-   EVENTS / ACTIONS
-══════════════════════════════════════════════════════════════════════ */
-function setView(v) { currentView = v; render(); }
-function selectArticle(id) { selected = articles.find(a=>a.id===id)||null; if(currentView!=='list')currentView='list'; render(); }
-function selectDay(date) {
-  selectedDay = date;
-  // carrega resumo salvo para este dia, se existir
-  const rc = storage.get(`resumo:${date}`);
-  resumoCredito = rc || null;
-  renderSidebar(); renderMain();
-}
-
-async function triggerResumo() {
-  const d = getDiarioAtivo();
-  if (!d) return;
-  resumoLoading = true; renderMain();
-  try {
-    resumoCredito = await gerarResumoCredito(d);
-  } catch(e) { console.error(e); }
-  resumoLoading = false; renderMain();
-}
-function toggleExpand(key) { expandedItems[key] = !expandedItems[key]; renderMain(); }
-
-function deleteArticle(id) {
-  if (!confirm('Remover esta matéria?')) return;
-  storage.del(id);
-  articles = articles.filter(a=>a.id!==id);
-  selected = articles[0]||null;
-  render();
-}
-
-async function saveNewsItem(eKey) {
-  const [prefix, idx] = eKey.split('-').reduce((acc,v,i,arr)=>i<arr.length-1?[acc[0]+'-'+v,arr[arr.length-1]]:[acc[0],acc[1]],['']).map((v,i)=>i===1?parseInt(v):v.slice(1));
-  // rebuild from eKey pattern: "manchetes_credito-0" etc
-  const parts = eKey.split('-');
-  const iIdx = parseInt(parts[parts.length-1]);
-  const pKey = parts.slice(0,-1).join('-');
-  const d = getDiarioAtivo();
-  if (!d) return;
-  const n = (d[pKey]||[])[iIdx];
-  if (!n) return;
-  savingNews[eKey] = true; renderMain();
-  try {
-    await analyzeAndSave({ inputText:`${n.titulo}\n\n${n.resumo}`, inputUrl:(n.url&&n.url!=='null')?n.url:'' });
-    savedNews[eKey] = true; currentView = 'list';
-  } catch(e) { console.error(e); }
-  savingNews[eKey] = false; render();
-}
-
-async function triggerDiario() {
-  const btn = document.getElementById('btn-buscar');
-  const errEl = document.getElementById('diario-error');
-  if (btn) { btn.disabled = true; btn.innerHTML = `${svg.spin(12)} Buscando…`; }
-  if (errEl) errEl.style.display = 'none';
-  try {
-    await buscarDiario();
-    render();
-  } catch(e) {
-    if (errEl) { errEl.textContent = e.message || 'Erro ao buscar notícias.'; errEl.style.display = 'block'; }
-    if (btn) { btn.disabled=false; btn.innerHTML=`${svg.radio} Buscar Hoje`; }
+  const el = document.getElementById('list');
+  if (!arts.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-ico">📄</div><div class="empty-ttl">Nenhuma matéria salva ainda</div><div class="empty-sub">Cole uma URL ou envie um PDF acima.<br/>A IA gera o resumo e salva automaticamente.</div></div>';
+    return;
   }
+  el.innerHTML = `<p class="stats"><b>${arts.length}</b> matéria${arts.length!==1?'s':''} salva${arts.length!==1?'s':''}</p>` +
+  arts.map(a => {
+    const isOpen = open[a.id];
+    const rc = a.relevancia==='alta'?'rel-alta':a.relevancia==='media'?'rel-media':'rel-baixa';
+    const dt = new Date(a.at).toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+    const body = isOpen ? `<div class="art-body">
+      ${a.tese?`<div class="tese-box">${a.tese}</div>`:''}
+      ${a.resumo?.length?`<div class="sec">Resumo</div><ul class="bullets">${a.resumo.map(b=>`<li>${b}</li>`).join('')}</ul>`:''}
+      ${a.detalhes_micro?.length?`
+        <div class="sec">Dados & Detalhes</div>
+        <div class="micro-grid">${a.detalhes_micro.map(d=>{
+          const tc = 't-'+(d.tipo||'outro');
+          return `<div class="micro-row"><span class="micro-tipo ${tc}">${d.tipo||'dado'}</span><span class="micro-txt">${d.item}</span></div>`;
+        }).join('')}</div>`:''}
+      ${a.citacoes?.length?`
+        <div class="sec">Falas em Destaque</div>
+        ${a.citacoes.map(c=>`
+          <div class="quote-block">
+            <div class="quote-text">"${c.frase}"</div>
+            <div class="quote-attr"><span>${c.pessoa}</span>${c.cargo?` — ${c.cargo}`:''}</div>
+          </div>`).join('')}`:''}
+      ${a.insights?.length?`<div class="sec">Insights para Crédito Privado</div>${a.insights.map(i=>`<div class="ins-row"><span class="ins-cat ${CC[i.categoria]||''}">${i.categoria}</span><span class="ins-txt">${i.texto}</span></div>`).join('')}`:''}
+      ${a.regulacoes?.length?`<div class="sec">Regulações BCB/CVM</div>${a.regulacoes.map(r=>`<div class="reg-box ${r.orgao==='CVM'?'reg-cvm':'reg-bcb'}"><div class="reg-org">${r.orgao}</div><div class="reg-name">${r.norma}</div><div class="reg-desc">${r.relevancia||''}</div></div>`).join('')}`:''}
+      ${a.tags?.length?`<div class="tags">${a.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>`:''}
+      ${a.url?`<a class="art-link" href="${a.url}" target="_blank"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14 21 3"/></svg> Ver original</a>`:''}
+    </div>` : '';
+
+    return `<div class="art" id="c-${a.id}">
+      <div class="art-top" onclick="tog('${a.id}')">
+        <div class="art-info">
+          <div class="art-meta">
+            <span class="src">${a.source||'—'}</span>
+            <span class="dt">${dt}</span>
+            <span class="rel ${rc}">${(a.relevancia||'—').toUpperCase()}</span>
+          </div>
+          <div class="art-title">${a.title}</div>
+        </div>
+        <div class="art-actions">
+          <button class="del-btn" onclick="event.stopPropagation();del('${a.id}')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+          </button>
+          <svg class="chev ${isOpen?'open':''}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+      </div>${body}</div>`;
+  }).join('');
 }
 
-async function triggerCruzamento() {
-  if (articles.length < 2) return;
-  const sb = document.getElementById('sb-content');
-  if (sb) sb.innerHTML = `<div style="display:flex;justify-content:center;padding:24px">${svg.spin(20)}</div>`;
-  try {
-    await gerarCruzamento();
-    render();
-  } catch(e) { console.error(e); render(); }
-}
+function tog(id) { open[id]=!open[id]; render(); }
+function del(id) { if(!confirm('Remover?')) return; S.del(id); arts=arts.filter(a=>a.id!==id); delete open[id]; render(); }
+function updBtn() { document.getElementById('go-btn').disabled = !document.getElementById('url-inp').value.trim() && !pdf; }
 
-/* ── MODAL ADD ── */
-function showAdd() {
-  pdfFile = null; inputMode = 'text';
-  document.getElementById('input-url').value = '';
-  document.getElementById('input-text').value = '';
-  document.getElementById('modal-error').style.display = 'none';
-  document.getElementById('mode-text-area').style.display = 'block';
-  document.getElementById('mode-pdf-area').style.display = 'none';
-  document.getElementById('pdf-loaded').style.display = 'none';
-  document.getElementById('drop-zone').style.display = 'flex';
-  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode==='text'));
-  updateAnalyzeBtn();
-  document.getElementById('modal-add').style.display = 'flex';
-}
-function closeAdd() { document.getElementById('modal-add').style.display = 'none'; }
-function updateAnalyzeBtn() {
-  const textOk = inputMode==='text' && document.getElementById('input-text').value.trim().length > 0;
-  const pdfOk  = inputMode==='pdf'  && pdfFile !== null;
-  const btn = document.getElementById('btn-analyze');
-  btn.disabled = !(textOk || pdfOk);
-}
-
-async function runAnalyze() {
-  const btn = document.getElementById('btn-analyze');
-  const errEl = document.getElementById('modal-error');
-  errEl.style.display = 'none';
-  btn.disabled = true;
-  btn.innerHTML = `${svg.spin(12)} Analisando…`;
-  try {
-    await analyzeAndSave({
-      inputText: inputMode==='pdf' ? (pdfFile?.name||'') : document.getElementById('input-text').value,
-      inputUrl:  document.getElementById('input-url').value.trim(),
-      pdfBase64: inputMode==='pdf' ? pdfFile?.base64 : null,
-    });
-    closeAdd(); currentView = 'list'; render();
-  } catch(e) {
-    errEl.textContent = e.message || 'Erro na análise. Verifique sua chave de API e tente novamente.';
-    errEl.style.display = 'block';
-    btn.innerHTML = `${svg.bmark} Analisar e Salvar`;
-    updateAnalyzeBtn();
-  }
-}
-
-/* ── MODAL SETTINGS ── */
-function showSettings() {
-  const key = storage.get('__apikey__') || '';
-  document.getElementById('input-apikey').value = key;
-  document.getElementById('modal-settings').style.display = 'flex';
-}
-function closeSettings() { document.getElementById('modal-settings').style.display = 'none'; }
-function saveApiKey() {
-  const key = document.getElementById('input-apikey').value.trim();
-  storage.set('__apikey__', key);
-  const btn = document.getElementById('btn-save-apikey');
-  btn.textContent = '✓ Salvo!';
-  btn.style.background = '#059669';
-  setTimeout(() => { closeSettings(); btn.textContent = 'Salvar Chave'; btn.style.background = ''; }, 1000);
-}
-
-/* ── PDF HANDLING ── */
-function readPdfAsBase64(file) {
-  return new Promise((res,rej) => {
-    const r = new FileReader();
-    r.onload  = () => res(r.result.split(',')[1]);
-    r.onerror = () => rej(new Error('Falha ao ler PDF'));
-    r.readAsDataURL(file);
-  });
-}
-async function handlePdf(file) {
-  if (!file || file.type !== 'application/pdf') { showModalError('Selecione um arquivo PDF válido.'); return; }
-  const base64 = await readPdfAsBase64(file);
-  pdfFile = { name: file.name, base64 };
-  document.getElementById('drop-zone').style.display = 'none';
-  document.getElementById('pdf-loaded').style.display = 'flex';
-  document.getElementById('pdf-name').textContent = file.name;
-  updateAnalyzeBtn();
-}
-function showModalError(msg) {
-  const el = document.getElementById('modal-error');
-  el.textContent = msg; el.style.display = 'block';
-}
-
-/* ══════════════════════════════════════════════════════════════════════
-   EVENT LISTENERS
-══════════════════════════════════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
-  loadAll();
-
-  // tab buttons
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => setView(btn.dataset.view));
-  });
-
-  // sidebar buttons
-  document.getElementById('btn-add').addEventListener('click', showAdd);
-  document.getElementById('btn-settings').addEventListener('click', showSettings);
-
-  // modal add
-  document.getElementById('btn-close-add').addEventListener('click', closeAdd);
-  document.getElementById('btn-cancel-add').addEventListener('click', closeAdd);
-  document.getElementById('btn-analyze').addEventListener('click', runAnalyze);
-  document.getElementById('input-text').addEventListener('input', updateAnalyzeBtn);
-
-  // mode tabs
-  document.querySelectorAll('.mode-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      inputMode = tab.dataset.mode;
-      document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t === tab));
-      document.getElementById('mode-text-area').style.display = inputMode==='text'?'block':'none';
-      document.getElementById('mode-pdf-area').style.display  = inputMode==='pdf' ?'block':'none';
-      updateAnalyzeBtn();
-    });
-  });
-
-  // drop zone
-  const dz = document.getElementById('drop-zone');
-  dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('dragging'); });
-  dz.addEventListener('dragleave', () => dz.classList.remove('dragging'));
-  dz.addEventListener('drop',      e => { e.preventDefault(); dz.classList.remove('dragging'); handlePdf(e.dataTransfer.files[0]); });
-  dz.addEventListener('click',     () => document.getElementById('pdf-input').click());
-  document.getElementById('pdf-input').addEventListener('change', e => handlePdf(e.target.files[0]));
-  document.getElementById('btn-clear-pdf').addEventListener('click', () => {
-    pdfFile = null;
-    document.getElementById('drop-zone').style.display = 'flex';
-    document.getElementById('pdf-loaded').style.display = 'none';
-    document.getElementById('pdf-input').value = '';
-    updateAnalyzeBtn();
-  });
-
-  // modal settings
-  document.getElementById('btn-close-settings').addEventListener('click', closeSettings);
-  document.getElementById('btn-cancel-settings').addEventListener('click', closeSettings);
-  document.getElementById('btn-save-apikey').addEventListener('click', saveApiKey);
-
-  // close modals on overlay click
-  document.getElementById('modal-add').addEventListener('click', e => { if(e.target===e.currentTarget)closeAdd(); });
-  document.getElementById('modal-settings').addEventListener('click', e => { if(e.target===e.currentTarget)closeSettings(); });
+/* pdf */
+document.getElementById('pdf-inp').addEventListener('change', e => {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    pdf = {name:f.name, b64:r.result.split(',')[1]};
+    document.getElementById('pdf-txt').textContent = f.name.length>16?f.name.slice(0,13)+'…':f.name;
+    document.getElementById('pdf-lbl').classList.add('ok');
+    updBtn();
+  };
+  r.readAsDataURL(f); e.target.value='';
 });
+document.getElementById('url-inp').addEventListener('input', updBtn);
+document.getElementById('go-btn').addEventListener('click', analyze);
+
+/* modal */
+function showModal() { document.getElementById('key-inp').value=S.get('__key__')||''; document.getElementById('imp-status').style.display='none'; document.getElementById('modal').style.display='flex'; }
+function hideModal() { document.getElementById('modal').style.display='none'; }
+document.getElementById('btn-cfg').addEventListener('click', showModal);
+document.getElementById('btn-close-modal').addEventListener('click', hideModal);
+document.getElementById('btn-cancel').addEventListener('click', hideModal);
+document.getElementById('modal').addEventListener('click', e => { if(e.target===e.currentTarget) hideModal(); });
+document.getElementById('btn-save').addEventListener('click', () => {
+  S.set('__key__', document.getElementById('key-inp').value.trim());
+  const b=document.getElementById('btn-save'); b.textContent='✓ Salvo!'; b.style.background='#059669';
+  setTimeout(()=>{ b.textContent='Salvar'; b.style.background=''; hideModal(); },900);
+});
+
+/* export / import */
+document.getElementById('btn-export').addEventListener('click', () => {
+  const d={}; S.list('a:').forEach(k=>{d[k]=S.get(k);});
+  const blob=new Blob([JSON.stringify({_at:new Date().toISOString(),data:d},null,2)],{type:'application/json'});
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:`credito-${new Date().toISOString().slice(0,10)}.json`});
+  a.click(); URL.revokeObjectURL(a.href);
+});
+document.getElementById('imp-inp').addEventListener('change', e => {
+  const f=e.target.files[0]; if(!f) return;
+  const st=document.getElementById('imp-status'); st.style.display='block'; st.style.color='#64748b'; st.textContent='Importando…';
+  const r=new FileReader();
+  r.onload=ev=>{
+    try {
+      const obj=JSON.parse(ev.target.result);
+      const entries=obj.data?Object.entries(obj.data):Object.entries(obj).filter(([k])=>!k.startsWith('_'));
+      let n=0; entries.forEach(([k,v])=>{if(k.startsWith('a:')){S.set(k,v);n++;}});
+      st.style.color='#16a34a'; st.textContent=`✓ ${n} matérias importadas.`;
+      setTimeout(()=>{hideModal();load();},900);
+    } catch { st.style.color='#ef4444'; st.textContent='Arquivo inválido.'; }
+  };
+  r.readAsText(f); e.target.value='';
+});
+
+load();
 </script>
 </body>
 </html>
